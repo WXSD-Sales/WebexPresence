@@ -29,8 +29,8 @@ export default class App extends Component {
       config: {
         credentials: {
           client_id: 'Cde0812fa83e09690c8e3bd1bf91883c8aea7f3579389aadc487004e628f7a997',
-          // redirect_uri: 'https://webexvoicea.ngrok.io',
-          redirect_uri: 'https://webexpresence.ngrok.io',
+          redirect_uri: 'https://wxsd-sales.github.io/WebexPresence',
+          // redirect_uri: 'https://webexpresence.ngrok.io',
           scope: 'spark:all spark:kms'
         }
       }
