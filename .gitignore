@@ -1,23 +1,44 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+#Runtime data
+coverage/
+test_results/
+pids
+*.pid
+*.seed
+*.out
+*.map
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+#Logs and others
+*.swp
+*.log
+*.log.*
+logs
+log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.node_repl_history
+reports/
+
+#IDEs
+.project
+.settings
+.metadata
+.vscode
+
+#Hidden directories
+.npm
+
+#OS
+.idea
+.DS_Store
+._*
+.awcache
+
+#Local stuff
+*.json
+.env*
+!.env.default
+!package.json
+!package-lock.json
+!src/data/*.json
+node_modules/
