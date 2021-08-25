@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import Webex from 'webex';
 import moment from 'moment';
 import {Button, Icon, Spinner, Avatar} from '@momentum-ui/react';
+import Content from './Content';
+
 
 declare type Props = null;
 
 export default class App extends Component {
-  githubPage: string;
   state: any;
   webex: any;
   props: any;
@@ -15,22 +16,16 @@ export default class App extends Component {
   constructor(props: Props) {
     super(props);
 
-    this.githubPage = 'https://github.com/WXSD-Sales/WebexPresence';
     this.token = "";
     this.state = {
       webexIsConnected: false,
-      avatarSrc: '',
-      avatarDisplayName: '',
-      avatarType: '',
-      title: '',
-      token: ''
     };
     this.webex = new Webex({
       config: {
         credentials: {
           client_id: 'Cde0812fa83e09690c8e3bd1bf91883c8aea7f3579389aadc487004e628f7a997',
-          redirect_uri: 'https://wxsd-sales.github.io/WebexPresence',
-          // redirect_uri: 'https://webexpresence.ngrok.io',
+          // redirect_uri: 'https://wxsd-sales.github.io/WebexPresence',
+          redirect_uri: 'https://webexpresence.ngrok.io',
           scope: 'spark:all spark:kms'
         }
       }
@@ -38,90 +33,64 @@ export default class App extends Component {
   }
 
   async componentDidMount(): Promise<void> {
-    await this.requestToken();
-  }
-
-  async requestToken(): Promise<void> {
     this.webex.on('ready', async() => {
       await this.validateToken();
     })
   }
 
   async validateToken(): Promise<void> {
-    if(localStorage.getItem('token')) {
-      if((moment(localStorage.getItem('expires_in')).diff(moment.utc()) < 0)) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('expires_in');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires_in');
+    localStorage.removeItem('access_token');
+
+    if(localStorage.getItem('webex_token')) {
+      if((moment(localStorage.getItem('expiration_date')).diff(moment.utc()) < 0)) {
+        localStorage.removeItem('webex_token');
+        localStorage.removeItem('expiration_date');
         this.webex.authorization.initiateImplicitGrant();
       } else {
-        const token = localStorage.getItem('token').replace('Bearer ', '');
-        this.webex = new Webex({
-          credentials: token
-        });
-  
-        this.setState({webexIsConnected: true});
-        await this.connect();
-        this.subscribeToPresence();
+        const token = localStorage.getItem('webex_token').replace('Bearer ', '');
 
+        await this.connect(token);
       }
     } else if (this.webex.credentials.supertoken) {
       const {access_token, expires_in} = this.webex.credentials.supertoken;
+      const startDate = moment.utc();
+      const expirationDate = startDate.add(Number(expires_in), 'seconds');
 
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('expires_in', expires_in);
+      localStorage.setItem('webex_token', access_token);
+      localStorage.setItem('expiration_date', expirationDate.format());
 
-      this.setState({webexIsConnected: true});
-      await this.connect();
-      this.subscribeToPresence();
+      await this.connect(access_token);
     } else {
       this.webex.authorization.initiateImplicitGrant();
     }
   }
 
-  async connect(): Promise<void> {
+  async connect(token: string): Promise<void> {
     try {
+      this.webex = new Webex({
+        credentials: token
+      });
       await this.webex.internal.device.register();
       await this.webex.internal.mercury.connect();
-      const {displayName, avatar, status} = await this.webex.people.get('me');
-      this.setState({
-        avatarSrc: avatar !== "" ? avatar : displayName,
-        avatarDisplayName: displayName,
-        avatarType: status
-      })
+
+      this.setState({webexIsConnected: true});
     } catch (error) {
       console.log(error);
     }
   }
 
-  subscribeToPresence(): void {
-    this.webex.internal.mercury.on(
-      'event:apheleia.subscription_update',
-      event => {
-        this.setState({
-          avatarType: event.data.status
-        })
-      }
-    );
-  }
 
   render(): JSX.Element {
-    const {webexIsConnected, avatarSrc, avatarType, avatarDisplayName} = this.state;
-
     return <div>
-      {webexIsConnected ? 
+      {this.state.webexIsConnected ? 
         <div className="app">
-          <div className="header">
-            <h2>Webex Presence</h2>
-            <Button circle color="blue" onClick={() => {window.open(this.githubPage, '_blank')}}>
-              <Icon name="info_18" />  
-            </Button >
+          <div className="header" >
+            <h1> My Fav Five </h1>
           </div>
           <div className="content">
-            <Avatar
-              src={avatarSrc}
-              type={avatarType}
-            />
-            <h3>{avatarDisplayName}</h3>
+            <Content webex={this.webex}/>
           </div>
         </div> : 
         <Spinner />}

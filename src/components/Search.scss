@@ -1,17 +1,17 @@
-.app.loading {
-  background-color: #dedede;
-}
-
-.header {
+.search {
   display: flex;
   flex-direction: column;
   background-color: $white;
   padding: 0 1rem 0 1rem;
-  margin: 1rem 0 0 0;
+  margin: 1rem 0;
   border-radius: 1rem;
-  justify-content: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-direction: column;
+
+  .searchInput {
+    display: flex;
+    flex-direction: column;
+  }
 }

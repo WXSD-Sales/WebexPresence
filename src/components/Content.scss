@@ -1,0 +1,25 @@
+.content {
+  display: flex;
+
+  .favs {
+    display: flex;
+    width: 45rem;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background-color: $white;
+    margin: 1rem;
+    border-radius: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.placeholder {
+  border: 1px solid $black-08;
+  width: 12rem;
+  height: 18.375rem;
+  margin: 1rem;
+  border-radius: 0.75rem;
+  background-color: #F7F7F7; 
+
+}
