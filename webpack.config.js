@@ -20,7 +20,7 @@ module.exports = smp.wrap({
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
+    extensions: [".js", ".jsx", ".json", ".ts", ".tsx", ".png"],
     fallback: {
       stream: require.resolve("stream-browserify"),
       crypto: require.resolve("crypto-browserify"),
@@ -36,6 +36,10 @@ module.exports = smp.wrap({
         loader: "awesome-typescript-loader",
         exclude: /node_modules/
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"]
+      },  
       {
         test: /\.s[ac]ss$/i,
         use: [
