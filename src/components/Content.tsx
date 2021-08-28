@@ -8,60 +8,42 @@ interface Props {
 const Placeholder = () => <div className="placeholder" />;
 
 const Content = ({webex}: Props): JSX.Element => {
-  const one = {
-    "id": "Y2lzY29zcGFyazovL3VzL1BFT1BMRS80N2MzMmQwYi0wNDQ0LTQ2MGQtOGJjZS0yMjY1YjUwMWFhYzU",
-    "emails": [
-        "akoushke@cisco.com"
-    ],
-    "phoneNumbers": [
-        {
-            "type": "mobile",
-            "value": "+1 408-527-6715"
-        },
-        {
-            "type": "work",
-            "value": "+1 408-894-5448"
-        }
-    ],
-    "displayName": "Arash Koushkebaghi",
-    "nickName": "Arash",
-    "firstName": "Arash",
-    "lastName": "Koushkebaghi",
-    "avatar": "https://avatar-prod-us-east-2.webexcontent.com/Avtr~V1~1eb65fdf-9643-417f-9974-ad72cae0e10f/V1~47c32d0b-0444-460d-8bce-2265b501aac5~311b7801865d484fb072dd0d5e8374bd~1600",
-    "orgId": "Y2lzY29zcGFyazovL3VzL09SR0FOSVpBVElPTi8xZWI2NWZkZi05NjQzLTQxN2YtOTk3NC1hZDcyY2FlMGUxMGY",
-    "created": "2016-12-04T15:55:38.969Z",
-    "lastModified": "2021-08-17T18:29:16.008Z",
-    "lastActivity": "2021-08-24T04:09:17.929Z",
-    "status": "active",
-    "type": "person",
-    "xmppFederationJid": "akoushke@cisco.com"
-  };
-  const [people, setPeople] = useState([]);
-  const [placeholders, setPlaceholders] = useState([
+  const [people, setPeople] = useState(JSON.parse(localStorage.getItem('people')) || []);
+  const initialPlaceholders = [
     <Placeholder key="0"/>, 
     <Placeholder key="1"/>, 
     <Placeholder key="2"/>, 
     <Placeholder key="3"/>, 
     <Placeholder key="4"/>
-  ])
-
-  const getPerson = (person) => {
+  ];
+  const [placeholders, setPlaceholders] = useState(initialPlaceholders.slice(people.length));
+  const addPerson = (person) => {
     placeholders.shift();
     setPlaceholders([...placeholders]);
 
     if(people.length < 5) {
-      setPeople([...people, person]);
+      const newPeople = [...people, person];
+      localStorage.setItem('people', JSON.stringify(newPeople));
+      setPeople(newPeople);
     }
   };
+  const removePerson = (person) => {
+    placeholders.unshift(<Placeholder key={`${placeholders.length}`}/>);
+    setPlaceholders([...placeholders]);
+
+    const folks = people.filter((peep) => peep !== person);
+    localStorage.setItem('people', JSON.stringify(folks));
+    setPeople([...folks]);
+  }
 
   const favs = people.map((person) => 
-    <Fav key={person.id} person={person} webex={webex}/>
+    <Fav key={person.id} person={person} webex={webex} removePerson={removePerson}/>
   );
 
   return <div className="content">
     <Search 
       webex={webex}
-      selectPerson={getPerson}/>
+      addPerson={addPerson}/>
     <div className="favs">
       {favs}  
       {placeholders}

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Menu, MenuItem, MenuContent, SubMenu} from '@momentum-ui/react';
 import PresenceAvatar from './PresenceAvatar';
-import {getPerson, setPresence} from '../Webex';
+import {getPerson, setPresence, enablePresence, disablePresence ,isPresenceEnabled} from '../Webex';
 
 interface Props {
   webex: any
@@ -37,6 +37,7 @@ const MyAvatarMenu = ({webex}: Props) => {
     "xmppFederationJid": "akoushke@cisco.com"
   };
   const [me, setMe] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(false);
   const durationOptions = [
     <MenuItem 
           key="30"
@@ -85,6 +86,10 @@ const MyAvatarMenu = ({webex}: Props) => {
     getPerson(webex, 'me').then((person) => {
       setMe(person);
     });
+
+    isPresenceEnabled(webex).then((response) => {
+      setIsEnabled(response);
+    });
   }, []);
 
   const logout = async() => {
@@ -95,6 +100,16 @@ const MyAvatarMenu = ({webex}: Props) => {
     } catch(error) {
       console.log(`logout ${error}`);
     }
+  };
+
+  const disable = async () => {
+    await disablePresence(webex);
+    setIsEnabled(false);
+  };
+
+  const enable = async () => {
+    await enablePresence(webex);
+    setIsEnabled(true);
   };
 
   return  me && <div className="menuContentWrapper">
@@ -127,6 +142,20 @@ const MyAvatarMenu = ({webex}: Props) => {
         label="Active"
         onClick={async() => {await setPresence('dnd', 0, webex)}}
       />
+      { isEnabled ? <MenuItem 
+        className="menuItem"
+        key="Disable Presence"
+        title="Disable Presence"
+        label="Disable Presence"
+        onClick={async() => {await disable()}}
+      /> :
+      <MenuItem 
+        className="menuItem"
+        key="Enable Presence"
+        title="Enable Presence"
+        label="Enable Presence"
+        onClick={async() => {await enable()}}
+      /> }
       <MenuItem 
         className="emailMenuItem"
         title="Sign Out"

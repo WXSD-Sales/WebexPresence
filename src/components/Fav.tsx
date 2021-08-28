@@ -1,16 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Menu, SubMenu, MenuContent, MenuItem} from '@momentum-ui/react';
+import {Menu, MenuContent, MenuItem} from '@momentum-ui/react';
 import PresenceAvatar from './PresenceAvatar';
 
 interface Props {
   webex: any,
-  person: any
+  person: any,
+  removePerson: (person: any) => void
 }
 
+const Fav = ({webex, person, removePerson}: Props) => {
+  const handleClick = (event) => {
+    event.preventDefault();
+    removePerson(person);
+  }
 
-
-const Fav = ({webex, person}: Props) => {
   return <div className="menuContentWrapper">
+    <button className="cancelButton"
+      onClick={(event) => {handleClick(event)}}
+    >
+      <i className="md-icon icon icon-cancel_16" />
+    </button>
     <MenuContent className="menuContent">
       <PresenceAvatar 
         webex={webex}
@@ -19,7 +28,7 @@ const Fav = ({webex, person}: Props) => {
         size={84}
         />
       <div className="info">
-        <div>{person.displayName}</div>
+        <div className="displayName">{person.displayName}</div>
         <div className="email">{person.emails[0]}</div>
       </div>
     </MenuContent>

@@ -54,6 +54,37 @@ export const getPerson = async (webex, id): Promise<any> => {
     console.log(`getMe() ${error}`);
   }
 }
+export const enablePresence = async(webex) : Promise<boolean> => {
+  try {
+    return webex.internal.presence.enable();
+  } catch(error) {
+    console.log(`enablePresence() ${error}`);
+  }
+}
+
+export const disablePresence = async(webex): Promise<boolean> => {
+  try {
+    return webex.internal.presence.disable();
+  } catch (error) {
+    console.log(`disablePresence() ${error}`);
+  }
+}
+
+export const isPresenceEnabled = async(webex): Promise<boolean> => {
+  try {
+    return webex.internal.presence.isEnabled();
+  } catch(error) {
+    console.log(`isPresenceEnabled() ${error}`);
+  }
+}
+
+export const getPeople = async(webex, ids): Promise<any> => {
+  try {
+    return await webex.people.get(ids);
+  } catch (error) {
+    console.log(`getPeople() ${error}`)
+  }
+}
 
 export const searchPeople = async (webex, input): Promise<any> => {
   try {

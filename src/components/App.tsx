@@ -88,6 +88,7 @@ export default class App extends Component {
         <div className="app">
           <div className="header" >
             <h1> My Fav Five </h1>
+            <h2>(WIP - there is a known bug after removing the card)</h2>
           </div>
           <div className="content">
             <Content webex={this.webex}/>

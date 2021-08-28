@@ -6,10 +6,10 @@ import MyAvatarMenu from './MyAvatarMenu';
 
 interface Props {
   webex: any,
-  selectPerson: (person: any) => void
+  addPerson: (person: any) => void
 }
 
-const Search = ({webex, selectPerson}: Props): JSX.Element => { 
+const Search = ({webex, addPerson}: Props): JSX.Element => { 
   const [isLoading, setIsLoading] = useState(false);
   const [people, setPeople] = useState([]);
 
@@ -30,7 +30,7 @@ const Search = ({webex, selectPerson}: Props): JSX.Element => {
 
   const cleanList = (person: any) => {
     setPeople([]);
-    selectPerson(person);
+    addPerson(person);
   }
 
   return <div className="search">
