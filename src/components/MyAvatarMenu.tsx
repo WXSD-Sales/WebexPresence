@@ -76,9 +76,9 @@ const MyAvatarMenu = ({webex}: Props) => {
       onClick={async() => {await setPresence('dnd', 1440, webex)}}
     />,
     <MenuItem 
-      key="Exit"
-      title="Exit"
-      label="Exit"
+      key="Clear"
+      title="Clear"
+      label="Clear"
     />
   ];
 

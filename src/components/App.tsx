@@ -24,8 +24,8 @@ export default class App extends Component {
       config: {
         credentials: {
           client_id: 'Cde0812fa83e09690c8e3bd1bf91883c8aea7f3579389aadc487004e628f7a997',
-          redirect_uri: 'https://wxsd-sales.github.io/WebexPresence',
-          // redirect_uri: 'https://webexpresence.ngrok.io',
+          // redirect_uri: 'https://wxsd-sales.github.io/WebexPresence',
+          redirect_uri: 'https://webexpresence.ngrok.io',
           scope: 'spark:all spark:kms'
         }
       }
@@ -88,7 +88,6 @@ export default class App extends Component {
         <div className="app">
           <div className="header" >
             <h1> My Fav Five </h1>
-            <h2>(WIP - there is a known bug after removing the card)</h2>
           </div>
           <div className="content">
             <Content webex={this.webex}/>
