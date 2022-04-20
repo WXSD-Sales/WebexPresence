@@ -1,8 +1,8 @@
 {
-  "name": "WebexPresence",
+  "name": "webex-presence",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:WXPD-Sales/WebexPresence.git",
+  "repository": "git@github.com:WXPD-Sales/webex-presence.git",
   "author": "Arash Koushkebaghi <arash.koush@gmail.com>",
   "license": "MIT",
   "private": null,
