@@ -48,11 +48,13 @@
 
 In this demo we show how to subscribe to others and set self statuses using webex JS SDK.
 
-### Built With
+### Prequisites & Dependencies
 
 - [Webex Browser SDK](https://github.com/webex/webex-js-sdk)
 - [React](https://reactjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Webex Integration](https://developer.webex.com/docs/integrations) with the following scopes:
+`spark:people_read`
 
 <!-- GETTING STARTED -->
 
@@ -78,7 +80,8 @@ If you would like to contribute to our source code and to improve our demo, plea
    ```sh
    yarn start
    ```
-
+## Disclaimer
+*_Everything included is for demo and Proof of Concept purposes only. Your use of the site is solely at your own risk. This site may contain links to third party content, which we do not warrant, endorse, or assume liability for. These demos are for Cisco Webex usecases, but are not Official Cisco Webex Branded demos._
 <!-- CONTRIBUTING -->
 
 ## Contributing
